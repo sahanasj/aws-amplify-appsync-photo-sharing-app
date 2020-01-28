@@ -1,0 +1,20 @@
+type Album @model @auth(rules: [{allow: owner}]) {
+    id: ID!
+    name: String!
+    photos: [Photo] @connection(name: "AlbumPhotos")
+}
+
+type Photo @model @auth(rules: [{allow: owner}]) @searchable {
+    id: ID!
+    album: Album @connection(name: "AlbumPhotos")
+    bucket: String!
+    fullsize: PhotoS3Info!
+    thumbnail: PhotoS3Info!
+    labels: [String!]
+}
+
+type PhotoS3Info {
+    key: String!
+    width: Int!
+    height: Int!
+}
